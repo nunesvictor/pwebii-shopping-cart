@@ -25,18 +25,33 @@
         </div>
 
         <div class="card-body">
-            <form method="post" th:action="${clientePessoaFisica.id == null} ? @{/clientespf/create} : @{/clientespf/update}"
+            <form method="post"
+                  th:action="${clientePessoaFisica.id == null} ? @{/clientespf/create} : @{/clientespf/update}"
                   th:object="${clientePessoaFisica}">
                 <input type="hidden" th:field="*{id}"/>
 
-                <div class="mb-3">
+                <div class="form-floating mb-3">
+                    <input id="nome"
+                           type="text"
+                           placeholder="Nome"
+                           th:field="*{nome}" class="form-control"
+                           th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ''}"/>
                     <label for="nome" class="form-label">Nome</label>
-                    <input id="nome" type="text" th:field="*{nome}" class="form-control"/>
+                    <div class="invalid-feedback"
+                         th:errors="*{nome}"
+                         th:if="${#fields.hasErrors('nome')}"></div>
                 </div>
 
-                <div class="mb-3">
+                <div class="form-floating mb-3">
+                    <input id="cpf"
+                           type="text"
+                           placeholder="CPF"
+                           th:field="*{cpf}" class="form-control"
+                           th:classappend="${#fields.hasErrors('cpf') ? 'is-invalid' : ''}"/>
                     <label for="cpf" class="form-label">CPF</label>
-                    <input id="cpf" type="text" th:field="*{cpf}" class="form-control"/>
+                    <div class="invalid-feedback"
+                         th:errors="*{cpf}"
+                         th:if="${#fields.hasErrors('cpf')}"></div>
                 </div>
 
                 <div class="d-flex flex-row-reverse mt-2">

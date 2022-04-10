@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.Date;
 
 @Scope("request")
@@ -44,11 +46,13 @@ public class VendaController {
     Venda venda;
 
     @GetMapping("/form")
-    public String form(ItemVenda item, ModelMap model) {
+    public ModelAndView form(ItemVenda item) {
+        ModelMap model = new ModelMap();
+
         model.addAttribute("produtos", produtoRepository.produtos());
         model.addAttribute("clientes", clientePessoaFisicaRepository.findAll());
 
-        return "/vendas/form";
+        return new ModelAndView("/vendas/form", model);
     }
 
     @GetMapping("/list")
@@ -58,7 +62,11 @@ public class VendaController {
     }
 
     @PostMapping("/add")
-    public ModelAndView addItem(ItemVenda item) {
+    public ModelAndView addItem(@Valid ItemVenda item, BindingResult result) {
+        if (result.hasErrors()) {
+            return form(item);
+        }
+
         Produto p = produtoRepository.produto(item.getProduto().getId());
         item.setProduto(p);
         item.setVenda(venda);
