@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <title>Formulário de produto</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/1.8.1/font/bootstrap-icons.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div th:insert="fragments/header.html :: header"></div>
+
+<main class="container mt-5 mh-700px">
+
+    <div class="card">
+        <div class="card-header">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/clientespf/list}">Clientes Pessoa Fisica</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Novo cliente</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="card-body">
+            <form method="post" th:action="${clientePessoaFisica.id == null} ? @{/clientespf/create} : @{/clientespf/update}"
+                  th:object="${clientePessoaFisica}">
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input id="nome" type="text" th:field="*{nome}" class="form-control"/>
+                </div>
+
+                <div class="mb-3">
+                    <label for="cpf" class="form-label">CPF</label>
+                    <input id="cpf" type="text" th:field="*{cpf}" class="form-control"/>
+                </div>
+
+                <div class="d-flex flex-row-reverse mt-2">
+                    <div class="d-grid col-2">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</main>
+
+<div th:insert="fragments/footer.html :: footer"></div>
+
+<script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
